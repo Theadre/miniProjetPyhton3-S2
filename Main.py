@@ -1,28 +1,150 @@
-from Class.Etudiant import Etudiant
-from Class.Cours import Cours
-from Class.Note import Note
-import platform
-import os
-import json
+from models.db import Db
+from models.cour import Cour
+from models.etudiant import Etudiant
+from models.note import Note
+from typing import List
 
 
-def main():
+def main(msg):
 
-    choix = ""
+    while True:
+        print(msg)
+        choix = int(input("Votre choix: "))
+
+        if choix == 1:
+            fileName = input("Entrez le nom du fichier: (defaut: data.json)")
+
+            Db.load(fileName)
+            Etudiant.afficher()
+            Cour.afficher()
+            Note.afficher()
+
+        elif choix == 2:
+            print('Ajouter un etudiant')
+            print('--------------------')
+
+            prenom = input("Prenom: ")
+            nom = input("Nom: ")
+            age = int(input("Age: "))
+
+            e = Etudiant(nom, prenom, age)
+
+            Etudiant.add(e)
+
+        elif choix == 3:
+            print('Ajouter une note')
+            note = int(input("Note a attribuer: "))
+
+            # get students
+            print('Liset des etudiants')
+            etudiants: List[Etudiant] = Etudiant.get()
+
+            for i, e in enumerate(etudiants): print(f'{i + 1}. {e}')
+
+            indexEtudiant = int(input('Votre choix: '))
+
+            etudiantSelectionne = etudiants[indexEtudiant - 1]
+
+            # get cours
+            print('Liste des cours')
+            cours: List[Cour] = Cour.get()
+
+            for i, e in enumerate(cours): print(f'{i + 1}. {e}')
+
+            indexCour = int(input('Votre choix: '))
+
+            courSelectionne = cours[indexCour - 1]
+
+            # instanciate new note object
+            noteObj = Note(etudiantSelectionne, courSelectionne, note)
+
+            print(noteObj)
+
+            Note.add(noteObj)
+
+        elif choix == 4:
+            print("Afficher les notes d'un etudiant")
+
+            print('Liste des etudiants')
+
+            etudiants: List[Etudiant] = Etudiant.get()
+
+            for i, e in enumerate(etudiants): print(f'{i + 1}. {e}')
+
+            indexEtudiant = int(input('Votre choix: '))
+
+            etudiantSelectionne = etudiants[indexEtudiant - 1]
+
+            print(f"Notes de {etudiantSelectionne}")
+
+            for e in Note.parEtudiant(
+                etudiantSelectionne): print(f'{e.cour}: {e.note}')
+
+        elif choix == 5:
+            print("Afficher les notes triees d'un cours")
+
+            cours = Cour.get()
+
+            # print list of cours
+            for i, e in enumerate(cours): print(f'{i + 1}. {e}')
+
+            indexCour = int(input("Votre choix: "))
+
+            cour = cours[indexCour - 1]
+
+            print(f'Notes triees du cours {cour}')
+
+            for e in Note.getParCourTriee(cour):
+                print(f'{e.etudiant}: {e.note}')
+
+        elif choix == 6:
+            print("Supprimer un cours")
+            print("----------------")
+
+            cours = Cour.get()
+
+            for i, e in enumerate(cours):
+                print(f'{i + 1}. {e}')
+
+            indexCour = int(input("Votre choix: "))
+
+            cour = cours[indexCour - 1]
+
+            Note.removeCour(cour)
+
+            print(
+                f'Le cours {cour} et les notes assocciees ont ete supprimees')
+
+        elif choix == 7:
+            print("Sauvegarder des donnees dans un fichier")
+            print("----------------")
+            fileName = input("Entrez le nom du fichier: (defaut: data.json)")
+
+            Db.save(fileName)
+
+            print("Les donnees ont ete sauvegardees")
+
+        elif choix == 8:
+                print('Ajouter un cour')
+                print('--------------------')
+                nom = input("Cour: ")
+                annee = input("Annee: ")
+
+                c = Cour(nom, annee)
+
+                Cour.add(c)
+
+        elif choix == 9:
+            Etudiant.afficher()
+            Cour.afficher()
+            Note.afficher()
+
+        else:
+            quit()
 
 
-    # Fonctions
-
-    def Clean():
-        if platform.system() == "Windows":
-            os.system("cls")
-        elif platform.system() == "Linux":
-            os.system("clear")
-
-    # Debut du programme
-
-
-    print("""
+# ******
+msg = """
     1. Lecture des données depuis un fichier
     2. Ajouter un étudiant
     3. Ajouter une note
@@ -30,113 +152,9 @@ def main():
     5. Afficher les notes triees d'un cours
     6. Supprimer un cours
     7. Sauvegarde des donnees dans un fichier
-    8. Quitter""")
-
-    choix = input("Votre choix :")
-
-    #--------------------------------------------------
-    # Choix 1 Lecture des données depuis un fichier
-    if choix == "1":
-
-        importFichier = input("Entrez le nom du fichier :")
-        tableEtudiant = []
-        tableCours = []
-        tableNote = []
-        data = ""
-        i = 0
-        f = 0
-        e = 0
-
-        # Chargement des etudiants
-        with open(importFichier) as json_file:
-            data = json.load(json_file)
-            for item in data:
-                if item['type'] == "etudiant":
-                    Etudiant(item['prenom'], item['nom'], item['age'])
-                    tableEtudiant.append(item['prenom'] + " "+ item['nom'] + " (" + item['age'] + ")")
-                    i = i + 1
-
-        # Chargement des cours
-        with open(importFichier) as json_file:
-            data = json.load(json_file)
-            for item in data:
-                 if item['type'] == "cours":
-                    Cours(item['nom'])
-                    tableCours.append(item['nom'])
-                    f = f + 1               
-
-        # Chargement des notes
-        with open(importFichier) as json_file:
-            data = json.load(json_file)
-            for item in data:
-                 if item['type'] == "note":
-                    Note(item['nom'], item['cours'], item['note'])
-                    tableNote.append("La note " + str(item['note']) + " est attribuée pour l étudiant ")
-                    e = e + 1   
-
-        print(i, "étudiants:")
-        a = 0
-        while a < i:
-            print(tableEtudiant[a])
-            a = a + 1 
-
-        print(f, "Cours:")
-        a = 0
-        while a < f:
-            print(tableCours[a])
-            a = a + 1  
-
-        print(e, "Notes :")
-        a = 0
-        while a < e:
-            print(tableNote[a])
-            a = a + 1        
-
-    #--------------------------------------------------
-    # Choix 2 Ajouter un étudiant
-
-    if choix == "2":
-        Clean()
-        print("""
-        Ajouter un etudiant
-         ------------------""")
-        prenomEtudiant = input("Prenom :")
-        nomEtudiant = input("Nom :")
-        ageEtudiant = input("Age :")
-
-        Etudiant(i, prenomEtudiant, nomEtudiant, ageEtudiant)
-        i = i + 1
-
-    #--------------------------------------------------
-    # Choix 3 Ajouter une note
-    if choix == "3":
-        print("votre choix 3")
-
-    #--------------------------------------------------
-    # Choix 4 Afficher les notes d'un etudiant
-    if choix == 4:
-        print("votre choix 4")
-
-    #--------------------------------------------------
-    # Choix 5 Afficher les notes triees d'un cours
-    if choix == "5":
-        print("votre choix 5")
-
-    #--------------------------------------------------
-    # Choix 6 Supprimer un cours
-    if choix == "6":
-        print("votre choix 6")
-
-    #--------------------------------------------------
-    # Choix 7 Sauvegarde des donnees dans un fichier
-    if choix == "7":
-        print("votre choix 7")
-
-    #-------------------------------------------------------------------
-    #Choix 8 Quitter
-    if choix == "q":
-    # Quitter le programme
-        quit()
-
-if __name__ == "__main__":
-    main()
+    ****************************************
+    8. Ajouter un cour
+    9. Voire les donne en memoire
+    10. Quitter
+    """
+main(msg)
