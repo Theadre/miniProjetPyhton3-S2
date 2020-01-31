@@ -1,0 +1,46 @@
+[
+    {
+        "type": "etudiant",
+        "nom": "Zuckerberg",
+        "prenom": "Mark",
+        "age": "34"
+    },
+
+    {
+        "type": "etudiant",
+        "nom": "Gates",
+        "prenom": "Bill",
+        "age": "63"
+    },
+
+    {
+        "type": "cours",
+        "nom": "DeepLearning (2018)"
+    },
+
+    {
+        "type": "cours",
+        "nom": "DeepLearning (2018)"
+    },
+
+    {
+        "type": "note",
+        "nom": "Zuckerberg",
+        "cours": "Python (2010)",
+        "note" : 15
+    },
+
+    {
+        "type": "note",
+        "nom": "Gates",
+        "cours": "Python (2010)",
+        "note" : 14
+    },
+
+    {
+        "type": "note",
+        "nom": "Zuckerberg",
+        "cours": "Python (2010)",
+        "note" : 17
+    }
+]
