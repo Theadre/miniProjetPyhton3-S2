@@ -3,7 +3,7 @@ import json
 class Db:
     dictionary: dict = {
         'cours': [],
-        'etudiants': [],
+        'étudiants': [],
         'notes': [],
     }
 
@@ -30,7 +30,7 @@ class Db:
         try: 
             d = json.loads(string_dectionary)
             Db.dictionary['cours'] = d['cours'] if d['cours'] != None else []
-            Db.dictionary['etudiants'] = d['etudiants'] if d['etudiants'] != None else []
+            Db.dictionary['étudiants'] = d['etudiants'] if d['etudiants'] != None else []
             Db.dictionary['notes'] = d['notes'] if d['notes'] != None else []
         except:
             print("dictionary empty")

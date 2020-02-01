@@ -1,17 +1,17 @@
 from models.db import Db
-from models.cour import Cour
+from models.cours import Cours
 from models.etudiant import Etudiant
 from typing import List
 
 class Note:
 
-    def __init__(self, etudiant: Etudiant, cour: Cour, note: float):
+    def __init__(self, etudiant: Etudiant, cours: Cours, note: float):
         self.etudiant = etudiant
-        self.cour = cour
+        self.cours = cours
         self.note = note
 
     def __repr__(self):
-        return f"La note {self.note} est attribue pour l'étudiant {self.etudiant} dans le cours {self.cour}"
+        return f"La note {self.note} est attribuée pour l'étudiant {self.etudiant} dans le cours {self.cours}"
 
     @staticmethod
     def afficher():
@@ -23,7 +23,7 @@ class Note:
     @staticmethod
     def add(model) -> None:
         model.etudiant = model.etudiant.__dict__
-        model.cour = model.cour.__dict__
+        model.cours = model.cours.__dict__
         Db.dictionary.get('notes').append(model.__dict__)
 
     @staticmethod
@@ -32,10 +32,10 @@ class Note:
 
         for model in Db.dictionary.get('notes'):
             etudiant = Etudiant(**model['etudiant'])
-            cour = Cour(**model['cour'])
+            cours = Cours(**model['cours'])
             note = model['note']
 
-            notes.append(Note(etudiant, cour, note))
+            notes.append(Note(etudiant, cours, note))
 
         return notes
 
@@ -50,17 +50,17 @@ class Note:
         return notes
 
     @staticmethod
-    def getParCourTriee(cour: Cour):
+    def getParCoursTriee(cours: Cours):
         notes: List[Note] = []
 
         for model in Note.get():
-            if model.cour.nom == cour.nom:
+            if model.cours.nom == cours.nom:
                 notes.append(model)
 
         return sorted(notes, key=lambda e: e.note, reverse=True)
 
     @staticmethod
-    def removeCour(cour: Cour):
-        Db.dictionary['notes'] = [e for e in Db.dictionary['notes'] if e['cour']['nom'] != cour.nom]
+    def removeCours(cours: Cours):
+        Db.dictionary['notes'] = [e for e in Db.dictionary['notes'] if e['cours']['nom'] != cours.nom]
         
-        Cour.remove(cour)
+        Cours.remove(cours)

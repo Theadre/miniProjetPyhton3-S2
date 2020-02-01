@@ -9,23 +9,23 @@ class Etudiant:
         self.age = age
 
     def __repr__(self):
-        return f'{self.nom} {self.prenom} ({self.age} ages)'
+        return f'{self.nom} {self.prenom} ({self.age} ans)'
 
     @staticmethod
     def afficher():
         list = Etudiant.get()
-        print(f'\n{len(list)} etudiants:')
+        print(f'\n{len(list)} étudiants:')
         for model in list:
             print(model)
 
     @staticmethod
     def add(model) -> None:
-        Db.dictionary.get('etudiants').append(model.__dict__)
+        Db.dictionary.get('étudiants').append(model.__dict__)
 
     @staticmethod
     def remove(model) -> None:
-        Db.dictionary.get('etudiants').remove(model.__dict__)
+        Db.dictionary.get('étudiants').remove(model.__dict__)
 
     @staticmethod
     def get():
-        return [Etudiant(**model) for model in Db.dictionary.get('etudiants')]
+        return [Etudiant(**model) for model in Db.dictionary.get('étudiants')]

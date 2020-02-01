@@ -1,5 +1,5 @@
 from models.db import Db
-from models.cour import Cour
+from models.cours import Cours
 from models.etudiant import Etudiant
 from models.note import Note
 from typing import List
@@ -12,18 +12,18 @@ def main(msg):
         choix = int(input("Votre choix: "))
 
         if choix == 1:
-            fileName = input("Entrez le nom du fichier: (defaut: data.json)")
+            fileName = input("Entrez le nom du fichier: (défaut: data.json)")
 
             Db.load(fileName)
             Etudiant.afficher()
-            Cour.afficher()
+            Cours.afficher()
             Note.afficher()
 
         elif choix == 2:
-            print('Ajouter un etudiant')
+            print('Ajouter un étudiant')
             print('--------------------')
 
-            prenom = input("Prenom: ")
+            prenom = input("Prénom: ")
             nom = input("Nom: ")
             age = int(input("Age: "))
 
@@ -33,10 +33,10 @@ def main(msg):
 
         elif choix == 3:
             print('Ajouter une note')
-            note = int(input("Note a attribuer: "))
+            note = int(input("Note à attribuer: "))
 
             # get students
-            print('Liset des etudiants')
+            print('Liste des étudiants')
             etudiants: List[Etudiant] = Etudiant.get()
 
             for i, e in enumerate(etudiants): print(f'{i + 1}. {e}')
@@ -47,25 +47,25 @@ def main(msg):
 
             # get cours
             print('Liste des cours')
-            cours: List[Cour] = Cour.get()
+            cours: List[Cours] = Cours.get()
 
             for i, e in enumerate(cours): print(f'{i + 1}. {e}')
 
-            indexCour = int(input('Votre choix: '))
+            indexCours = int(input('Votre choix: '))
 
-            courSelectionne = cours[indexCour - 1]
+            coursSelectionne = cours[indexCours - 1]
 
             # instanciate new note object
-            noteObj = Note(etudiantSelectionne, courSelectionne, note)
+            noteObj = Note(etudiantSelectionne, coursSelectionne, note)
 
             print(noteObj)
 
             Note.add(noteObj)
 
         elif choix == 4:
-            print("Afficher les notes d'un etudiant")
+            print("Afficher les notes d'un étudiant")
 
-            print('Liste des etudiants')
+            print('Liste des étudiants')
 
             etudiants: List[Etudiant] = Etudiant.get()
 
@@ -78,65 +78,65 @@ def main(msg):
             print(f"Notes de {etudiantSelectionne}")
 
             for e in Note.parEtudiant(
-                etudiantSelectionne): print(f'{e.cour}: {e.note}')
+                etudiantSelectionne): print(f'{e.cours}: {e.note}')
 
         elif choix == 5:
-            print("Afficher les notes triees d'un cours")
+            print("Afficher les notes triées d'un cours")
 
-            cours = Cour.get()
+            cours = Cours.get()
 
             # print list of cours
             for i, e in enumerate(cours): print(f'{i + 1}. {e}')
 
-            indexCour = int(input("Votre choix: "))
+            indexCours = int(input("Votre choix: "))
 
-            cour = cours[indexCour - 1]
+            cours = cours[indexCours - 1]
 
-            print(f'Notes triees du cours {cour}')
+            print(f'Notes triées du cours {cours}')
 
-            for e in Note.getParCourTriee(cour):
+            for e in Note.getParCoursTriee(cours):
                 print(f'{e.etudiant}: {e.note}')
 
         elif choix == 6:
             print("Supprimer un cours")
             print("----------------")
 
-            cours = Cour.get()
+            cours = Cours.get()
 
             for i, e in enumerate(cours):
                 print(f'{i + 1}. {e}')
 
-            indexCour = int(input("Votre choix: "))
+            indexCours = int(input("Votre choix: "))
 
-            cour = cours[indexCour - 1]
+            cours = cours[indexCours - 1]
 
-            Note.removeCour(cour)
+            Note.removeCours(cours)
 
             print(
-                f'Le cours {cour} et les notes assocciees ont ete supprimees')
+                f'Le cours {cours} et les notes assocciées ont été supprimées')
 
         elif choix == 7:
-            print("Sauvegarder des donnees dans un fichier")
+            print("Sauvegarder des données dans un fichier")
             print("----------------")
-            fileName = input("Entrez le nom du fichier: (defaut: data.json)")
+            fileName = input("Entrez le nom du fichier: (défaut: data.json)")
 
             Db.save(fileName)
 
-            print("Les donnees ont ete sauvegardees")
+            print("Les données ont ete sauvegardées")
 
         elif choix == 8:
-                print('Ajouter un cour')
+                print('Ajouter un cours')
                 print('--------------------')
-                nom = input("Cour: ")
-                annee = input("Annee: ")
+                nom = input("Cours: ")
+                annee = input("Année: ")
 
-                c = Cour(nom, annee)
+                c = Cours(nom, annee)
 
-                Cour.add(c)
+                Cours.add(c)
 
         elif choix == 9:
             Etudiant.afficher()
-            Cour.afficher()
+            Cours.afficher()
             Note.afficher()
 
         else:
@@ -148,13 +148,13 @@ msg = """
     1. Lecture des données depuis un fichier
     2. Ajouter un étudiant
     3. Ajouter une note
-    4. Afficher les notes d'un etudiant
-    5. Afficher les notes triees d'un cours
+    4. Afficher les notes d'un étudiant
+    5. Afficher les notes triées d'un cours
     6. Supprimer un cours
-    7. Sauvegarde des donnees dans un fichier
+    7. Sauvegarde des données dans un fichier
     ****************************************
-    8. Ajouter un cour
-    9. Voire les donne en memoire
+    8. Ajouter un cours
+    9. Voir les données en mémoire
     10. Quitter
     """
 main(msg)
