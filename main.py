@@ -47,13 +47,13 @@ def main(msg):
 
             # get cours
             print('Liste des cours')
-            cours: List[Cours] = Cours.get()
+            listCours: List[Cours] = Cours.get()
 
-            for i, e in enumerate(cours): print(f'{i + 1}. {e}')
+            for i, e in enumerate(listCours): print(f'{i + 1}. {e}')
 
             indexCours = int(input('Votre choix: '))
 
-            coursSelectionne = cours[indexCours - 1]
+            coursSelectionne = listCours[indexCours - 1]
 
             # instanciate new note object
             noteObj = Note(etudiantSelectionne, coursSelectionne, note)
@@ -101,14 +101,14 @@ def main(msg):
             print("Supprimer un cours")
             print("----------------")
 
-            cours = Cours.get()
+            listCours = Cours.get()
 
-            for i, e in enumerate(cours):
+            for i, e in enumerate(listCours):
                 print(f'{i + 1}. {e}')
 
             indexCours = int(input("Votre choix: "))
 
-            cours = cours[indexCours - 1]
+            cours = listCours[indexCours - 1]
 
             Note.removeCours(cours)
 
