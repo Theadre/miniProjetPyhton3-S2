@@ -12,7 +12,7 @@ def main(msg):
         choix = int(input("Votre choix: "))
 
         if choix == 1:
-            fileName = input("Entrez le nom du fichier: (défaut: data.json)")
+            fileName = input("Entrez le nom du fichier: (défaut: data.txt)")
 
             Db.load(fileName)
             Etudiant.afficher()
@@ -25,7 +25,7 @@ def main(msg):
 
             prenom = input("Prénom: ")
             nom = input("Nom: ")
-            age = int(input("Age: "))
+            age = int(input("Âge: "))
 
             e = Etudiant(nom, prenom, age)
 
@@ -118,7 +118,7 @@ def main(msg):
         elif choix == 7:
             print("Sauvegarder des données dans un fichier")
             print("----------------")
-            fileName = input("Entrez le nom du fichier: (défaut: data.json)")
+            fileName = input("Entrez le nom du fichier: (défaut: data.txt)")
 
             Db.save(fileName)
 

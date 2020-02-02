@@ -14,18 +14,18 @@ class Etudiant:
     @staticmethod
     def afficher():
         list = Etudiant.get()
-        print(f'\n{len(list)} étudiants:')
+        print(f'\n{len(list)} etudiants:')
         for model in list:
             print(model)
 
     @staticmethod
     def add(model) -> None:
-        Db.dictionary.get('étudiants').append(model.__dict__)
+        Db.dictionary.get('etudiants').append(model.__dict__)
 
     @staticmethod
     def remove(model) -> None:
-        Db.dictionary.get('étudiants').remove(model.__dict__)
+        Db.dictionary.get('etudiants').remove(model.__dict__)
 
     @staticmethod
     def get():
-        return [Etudiant(**model) for model in Db.dictionary.get('étudiants')]
+        return [Etudiant(**model) for model in Db.dictionary.get('etudiants')]

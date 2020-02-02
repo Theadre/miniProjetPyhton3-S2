@@ -1,0 +1,62 @@
+{
+    "cours": [
+        {
+            "nom": "DeepLearning",
+            "annee": "2018"
+        },
+        {
+            "nom": "Python",
+            "annee": "2010"
+        }
+    ],
+    "etudiants": [
+        {
+            "nom": "Zuckerberg",
+            "prenom": "Mark",
+            "age": 34
+        },
+        {
+            "nom": "Gates",
+            "prenom": "Bill",
+            "age": 63
+        }
+    ],
+    "notes": [
+        {
+            "etudiant": {
+                "nom": "Zuckerberg",
+                "prenom": "Mark",
+                "age": 34
+            },
+            "cours": {
+                "nom": "DeepLearning",
+                "annee": "2018"
+            },
+            "note": 15
+        },
+        {
+            "etudiant": {
+                "nom": "Gates",
+                "prenom": "Bill",
+                "age": 63
+            },
+            "cours": {
+                "nom": "Python",
+                "annee": "2010"
+            },
+            "note": 14
+        },
+        {
+            "etudiant": {
+                "nom": "Zuckerberg",
+                "prenom": "Mark",
+                "age": 34
+            },
+            "cours": {
+                "nom": "Python",
+                "annee": "2010"
+            },
+            "note": 17
+        }
+    ]
+}
